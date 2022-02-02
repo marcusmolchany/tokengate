@@ -1,4 +1,4 @@
-import { Contract } from "ethers";
+import { ethers, Contract } from "ethers";
 import { type Provider } from "@ethersproject/abstract-provider";
 import { type Signer } from "@ethersproject/abstract-signer";
 
@@ -37,4 +37,55 @@ export async function tokenGate({
 
     return false;
   }
+}
+
+type RecoverAddressFromSignedMessageArgs = {
+  message: string;
+  signedMessage: string;
+};
+
+export function recoverAddressFromSignedMessage({
+  message,
+  signedMessage,
+}: RecoverAddressFromSignedMessageArgs): string {
+  const recoveredAddress = ethers.utils.verifyMessage(message, signedMessage);
+  return recoveredAddress;
+}
+
+type RecoverAddressAndCheckTokenGateArgs = {
+  address: string;
+  balanceOfThreshold: number;
+  contractAddress: string;
+  message: string;
+  provider: Provider;
+  signedMessage: string;
+};
+
+export async function recoverAddressAndCheckTokenGate({
+  address,
+  balanceOfThreshold,
+  contractAddress,
+  provider,
+  message,
+  signedMessage,
+}: RecoverAddressAndCheckTokenGateArgs): Promise<boolean> {
+  const recoveredAddress = recoverAddressFromSignedMessage({
+    message,
+    signedMessage,
+  });
+
+  if (address !== recoveredAddress) {
+    console.error(
+      "tokenGate::recoverAddressAndCheckTokenGate addresses do not match"
+    );
+    return false;
+  }
+
+  const isEnabled = await tokenGate({
+    balanceOfThreshold,
+    contractAddress,
+    signerOrProvider: provider,
+    userAddress: recoveredAddress,
+  });
+  return isEnabled;
 }
