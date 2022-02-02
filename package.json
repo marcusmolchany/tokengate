@@ -1,6 +1,6 @@
 {
   "name": "tokengate",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "js module for token gating on ethereum",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
