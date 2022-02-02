@@ -1,0 +1,27 @@
+{
+  "name": "tokengate",
+  "version": "0.0.1",
+  "description": "js module for token gating on ethereum",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcusmolchany/tokengate.git"
+  },
+  "keywords": [
+    "tokengate",
+    "token gate",
+    "ethereum",
+    "ethers"
+  ],
+  "author": "marcusmolchany",
+  "license": "MIT"
+}
