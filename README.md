@@ -61,7 +61,7 @@ function TokenGateButton({ signer }) {
   useEffect(() => {
     const asyncEffect = async () => {
       const userAddress = await signer.getAddress();
-      const _isEnable = await insecureClientSideTokenGate({
+      const _isEnabled = await insecureClientSideTokenGate({
         balanceOfThreshold,
         contractAddress,
         signerOrProvider: signer,
@@ -75,7 +75,6 @@ function TokenGateButton({ signer }) {
   }, [signer]);
 
   const onClick = async () => {
-    const message = `let me see the token gated content ${Date.now()}`;
     const userAddress = await signer.getAddress();
     const signedMessage = await clientSideSignMessage({
       messageToSign: message,
