@@ -50,8 +50,9 @@ import axios from "axios";
 import { useState } from "react";
 import { clientSideSignMessage, insecureClientSideTokenGate } from "tokengate";
 
-const balanceOfThreshold = 1; /* require 1 bayc nft */
-const contractAddress = "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d"; /* bayc */
+const balanceOfThreshold = 1; /* require 1 blitmap nft */
+const contractAddress =
+  "0x8d04a8c79ceb0889bdd12acdf3fa9d207ed3ff63"; /* blitmap */
 
 // this must match the message that is signed on the server-side.
 // ideally the server-side issues this message as a challange.
@@ -108,8 +109,9 @@ function TokenGateButton({ signer }) {
 import { ethers } from "ethers";
 import { secureServerSideTokenGate } from "tokengate";
 
-const balanceOfThreshold = 1; /* require 1 bayc nft */
-const contractAddress = "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d"; /* bayc */
+const balanceOfThreshold = 1; /* require 1 blitmap nft */
+const contractAddress =
+  "0x8d04a8c79ceb0889bdd12acdf3fa9d207ed3ff63"; /* blitmap */
 
 // this must match the message that is signed on the client-side.
 // ideally the backend issues this message as a challange.
