@@ -56,19 +56,19 @@ const contractAddress = "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d"; /* bayc */
 const message = "sign this secret message";
 
 function TokenGateButton({ signer }) {
-  const [isEnabled, setIsEnabled] = useState<boolean>(false);
+  const [isAllowed, setIsAllowed] = useState<boolean>(false);
 
   useEffect(() => {
     const asyncEffect = async () => {
       const userAddress = await signer.getAddress();
-      const _isEnabled = await insecureClientSideTokenGate({
+      const _isAllowed = await insecureClientSideTokenGate({
         balanceOfThreshold,
         contractAddress,
         signerOrProvider: signer,
         userAddress,
       });
 
-      setIsEnabled(_isEnabled);
+      setIsAllowed(_isAllowed);
     };
 
     asyncEffect();
@@ -86,15 +86,15 @@ function TokenGateButton({ signer }) {
         address: userAddress,
         signedMessage,
       });
-      setIsEnabled(resp.data.isEnabled);
+      setIsAllowed(resp.data.isAllowed);
     } catch (e) {
       console.error("something went wrong");
-      setIsEnabled(false);
+      setIsAllowed(false);
     }
   };
 
   return (
-    <button disabled={!isEnabled} onClick={onClick}>
+    <button disabled={!isAllowed} onClick={onClick}>
       Access token gated content
     </button>
   );
@@ -117,7 +117,7 @@ app.post("/api/token-gate", (req, res) => {
   // create a web3 provider
   const provider = new ethers.providers.InfuraProvider();
 
-  const isEnabled = secureServerSideTokenGate({
+  const isAllowed = secureServerSideTokenGate({
     address,
     balanceOfThreshold,
     contractAddress,
@@ -128,7 +128,7 @@ app.post("/api/token-gate", (req, res) => {
 
   // handle the success/failure case however you want
 
-  return res.json({ isEnabled });
+  return res.json({ isAllowed });
 });
 ```
 
