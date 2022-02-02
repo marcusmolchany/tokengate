@@ -82,7 +82,7 @@ function TokenGateButton({ signer }) {
     });
 
     try {
-      const resp = axios.post("/api/token-gate", {
+      const resp = await axios.post("/api/token-gate", {
         address: userAddress,
         signedMessage,
       });
@@ -101,7 +101,7 @@ function TokenGateButton({ signer }) {
 }
 
 // server-side api
-import ethers from "ethers";
+import { ethers } from "ethers";
 import { secureServerSideTokenGate } from "tokengate";
 
 const balanceOfThreshold = 1; /* require 1 bayc nft */
@@ -117,7 +117,7 @@ app.post("/api/token-gate", (req, res) => {
   // create a web3 provider
   const provider = new ethers.providers.InfuraProvider();
 
-  const isAllowed = secureServerSideTokenGate({
+  const isAllowed = await secureServerSideTokenGate({
     address,
     balanceOfThreshold,
     contractAddress,
