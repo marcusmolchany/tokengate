@@ -26,5 +26,8 @@
   "license": "MIT",
   "devDependencies": {
     "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "ethers": "^5.5.4"
   }
 }
