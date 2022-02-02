@@ -10,6 +10,7 @@
   "scripts": {
     "build": "./node_modules/.bin/tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "test:types": "./node_modules/.bin/tsc --noEmit",
     "prepare": "npm run build"
   },
   "repository": {
@@ -25,6 +26,7 @@
   "author": "marcusmolchany",
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^17.0.14",
     "typescript": "^4.5.5"
   },
   "dependencies": {
