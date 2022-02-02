@@ -74,7 +74,8 @@ export async function recoverAddressAndCheckTokenGate({
     signedMessage,
   });
 
-  if (address !== recoveredAddress) {
+  // compare lowercased addresses in case one is checksummed and the other is not
+  if (address.toLowerCase() !== recoveredAddress.toLowerCase()) {
     console.error(
       "tokenGate::recoverAddressAndCheckTokenGate addresses do not match"
     );
