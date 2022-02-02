@@ -8,7 +8,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "./node_modules/.bin/tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "npm run build"
   },
