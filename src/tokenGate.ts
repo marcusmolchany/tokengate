@@ -65,8 +65,8 @@ export async function recoverAddressAndCheckTokenGate({
   address,
   balanceOfThreshold,
   contractAddress,
-  provider,
   message,
+  provider,
   signedMessage,
 }: RecoverAddressAndCheckTokenGateArgs): Promise<boolean> {
   const recoveredAddress = recoverAddressFromSignedMessage({
