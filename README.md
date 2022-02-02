@@ -51,6 +51,10 @@ import { clientSideSignMessage, insecureClientSideTokenGate } from "tokengate";
 const balanceOfThreshold = 1; /* require 1 bayc nft */
 const contractAddress = "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d"; /* bayc */
 
+// this must match the message that is signed on the server-side.
+// ideally the server-side issues this message as a challange.
+const message = "sign this secret message";
+
 function TokenGateButton({ signer }) {
   const [isEnabled, setIsEnabled] = useState<boolean>(false);
 
@@ -81,10 +85,6 @@ function TokenGateButton({ signer }) {
     try {
       const resp = axios.post("/api/token-gate", {
         address: userAddress,
-        balanceOfThreshold,
-        contractAddress,
-        message,
-        provider: signer,
         signedMessage,
       });
       setIsEnabled(resp.data.isEnabled);
@@ -102,17 +102,21 @@ function TokenGateButton({ signer }) {
 }
 
 // server-side api
+import ethers from "ethers";
 import { secureServerSideTokenGate } from "tokengate";
 
+const balanceOfThreshold = 1; /* require 1 bayc nft */
+const contractAddress = "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d"; /* bayc */
+
+// this must match the message that is signed on the client-side.
+// ideally the backend issues this message as a challange.
+const message = "sign this secret message";
+
 app.post("/api/token-gate", (req, res) => {
-  const {
-    address,
-    balanceOfThreshold,
-    contractAddress,
-    message,
-    provider,
-    signedMessage,
-  } = res.body;
+  const { address, signedMessage } = res.body;
+
+  // create a web3 provider
+  const provider = new ethers.providers.InfuraProvider();
 
   const isEnabled = secureServerSideTokenGate({
     address,
