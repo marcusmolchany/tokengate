@@ -9,9 +9,9 @@ js module for token gating on ethereum
 Exported methods
 
 ```ts
-// insecure client-side method to check if an address meets a token threshold.
+// unsecure client-side method to check if an address meets a token threshold.
 // example usage: enable/disable a button based on a connected wallet's address.
-async insecureClientSideTokenGate({
+async unsecureClientSideTokenGate({
   balanceOfThreshold, // {number} balance of tokens that define token gate threshold
   contractAddress, // {string} erc20, erc721, or erc1155 contract address
   signerOrProvider, // {Provider} wallet web3 provider
@@ -48,7 +48,7 @@ Client-side / Server-side example
 ////////////////////////////////////////////////////////////////////
 import axios from "axios";
 import { useState } from "react";
-import { clientSideSignMessage, insecureClientSideTokenGate } from "tokengate";
+import { clientSideSignMessage, unsecureClientSideTokenGate } from "tokengate";
 
 const balanceOfThreshold = 1; /* require 1 blitmap nft */
 const contractAddress =
@@ -64,7 +64,7 @@ function TokenGateButton({ signer }) {
   useEffect(() => {
     const asyncEffect = async () => {
       const userAddress = await signer.getAddress();
-      const _isAllowed = await insecureClientSideTokenGate({
+      const _isAllowed = await unsecureClientSideTokenGate({
         balanceOfThreshold,
         contractAddress,
         signerOrProvider: signer,
