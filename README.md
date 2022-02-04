@@ -118,10 +118,12 @@ const contractAddress =
 const message = "sign this secret message";
 
 app.post("/api/token-gate", (req, res) => {
-  const { address, signedMessage } = req.body;
+  // optional `networkId` param so that you can use other networks.
+  // defaults to `1` which is mainnet
+  const { address, networkId = 1, signedMessage } = req.body;
 
   // create a web3 provider
-  const provider = new ethers.providers.InfuraProvider();
+  const provider = new ethers.providers.InfuraProvider(networkId);
 
   const isAllowed = await secureServerSideTokenGate({
     address,
