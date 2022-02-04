@@ -49,7 +49,7 @@ Client-side / Server-side example
 //////////////////////// client-side react /////////////////////////
 ////////////////////////////////////////////////////////////////////
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { clientSideSignMessage, unsecureClientSideTokenGate } from "tokengate";
 
 const balanceOfThreshold = 1; /* require 1 blitmap nft */
