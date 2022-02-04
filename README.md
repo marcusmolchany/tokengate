@@ -1,6 +1,8 @@
 # Token Gate
 
 [![NPM version][npm-image]][npm-url]
+[![License][license-image]][license-url]
+[![Downloads][downloads-image]][downloads-url]
 
 js module for token gating on ethereum
 
@@ -140,5 +142,9 @@ app.post("/api/token-gate", (req, res) => {
 });
 ```
 
-[npm-image]: https://badge.fury.io/js/tokengate.svg
-[npm-url]: https://npmjs.org/package/tokengate
+[npm-image]: https://img.shields.io/npm/v/tokengate.svg?style=for-the-badge&labelColor=161c22
+[npm-url]: https://www.npmjs.com/package/tokengate
+[license-image]: https://img.shields.io/npm/l/tokengate.svg?style=for-the-badge&labelColor=161c22
+[license-url]: /LICENSE
+[downloads-image]: https://img.shields.io/npm/dm/tokengate.svg?style=for-the-badge&labelColor=161c22
+[downloads-url]: https://www.npmjs.com/package/tokengate
