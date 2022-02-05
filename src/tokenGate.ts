@@ -44,6 +44,7 @@ type TokenGateArgs = {
   balanceOfThreshold: number;
   contractAddress: string;
   signerOrProvider: Signer | Provider;
+  tokenId?: number;
   tokenStandard?: TokenStandard;
   userAddress: string;
 };
@@ -52,6 +53,7 @@ export async function tokenGate({
   balanceOfThreshold,
   contractAddress,
   signerOrProvider,
+  tokenId,
   tokenStandard = "erc20",
   userAddress,
 }: TokenGateArgs): Promise<boolean> {
@@ -64,7 +66,12 @@ export async function tokenGate({
   const contract = new Contract(contractAddress, abi, signerOrProvider);
 
   try {
-    const balanceOf = await contract.balanceOf(userAddress);
+    let balanceOf: number;
+    if (tokenStandard === "erc1155") {
+      balanceOf = await contract.balanceOf(userAddress, tokenId);
+    } else {
+      balanceOf = await contract.balanceOf(userAddress);
+    }
     return balanceOf >= balanceOfThreshold;
   } catch (e) {
     console.error("tokengate::tokenGate could not query contract balance.");
@@ -94,6 +101,7 @@ type RecoverAddressAndCheckTokenGateArgs = {
   message: string;
   provider: Provider;
   signedMessage: string;
+  tokenId?: number;
   tokenStandard?: TokenStandard;
 };
 
@@ -104,6 +112,7 @@ export async function recoverAddressAndCheckTokenGate({
   message,
   provider,
   signedMessage,
+  tokenId,
   tokenStandard = "erc20",
 }: RecoverAddressAndCheckTokenGateArgs): Promise<boolean> {
   const recoveredAddress = recoverAddressFromSignedMessage({
@@ -123,6 +132,7 @@ export async function recoverAddressAndCheckTokenGate({
     balanceOfThreshold,
     contractAddress,
     signerOrProvider: provider,
+    tokenId,
     tokenStandard,
     userAddress: recoveredAddress,
   });
