@@ -116,7 +116,8 @@ const contractAddress =
   "0x8d04a8c79ceb0889bdd12acdf3fa9d207ed3ff63"; /* blitmap */
 
 // this must match the message that is signed on the client-side.
-// ideally the backend issues this message as a challange.
+// ideally the backend issues this message as a challange including a
+// human-readable message, nonce, timestamp, domain and chain information.
 const message = "sign this secret message";
 
 app.post("/api/token-gate", (req, res) => {
