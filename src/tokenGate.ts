@@ -27,7 +27,10 @@ const balanceOfAddressAbi: BalanceOfAbi = [
 // erc1155
 const balanceOfAddressForTokenIdAbi: BalanceOfAbi = [
   {
-    inputs: [{ internalType: "address", name: "owner", type: "address" }],
+    inputs: [
+      { internalType: "address", name: "", type: "address" },
+      { internalType: "uint256", name: "", type: "uint256" },
+    ],
     name: "balanceOf",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
