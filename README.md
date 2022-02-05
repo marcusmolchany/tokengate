@@ -42,7 +42,7 @@ async secureServerSideTokenGate({
 });
 ```
 
-Client-side / Server-side example
+Client-side / Server-side example for erc20/721/777
 
 ```ts
 ////////////////////////////////////////////////////////////////////
