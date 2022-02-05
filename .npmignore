@@ -1,3 +1,6 @@
 .DS_Store
+dist/test.d*
+dist/test.js*
+test.ts
 tsconfig.json
 tsconfig.tsbuildinfo
