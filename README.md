@@ -143,6 +143,40 @@ app.post("/api/token-gate", (req, res) => {
 });
 ```
 
+Client-side / Server-side example for erc1555
+
+```ts
+// the balanceOf method for erc1155 has a different api than other tokens. it allows you to
+// check the balance of a particular user for a particular token id. for tokengate, you must
+// provide two new arguments: `tokenId`, and `tokenStandard`.
+// `tokenId` will be the number id of the token you are checking the balance of
+// `tokenStandard` will be `erc1155`
+
+// client-side
+// pass `tokenId` and `tokenStandard` when doing a client-side token gate check
+const _isAllowed = await unsecureClientSideTokenGate({
+  balanceOfThreshold,
+  contractAddress,
+  signerOrProvider: signer,
+  tokenId: 2,
+  tokenStandard: "erc1155",
+  userAddress,
+});
+
+// server-side
+// pass `tokenId` and `tokenStandard` to your api handler
+const isAllowed = await secureServerSideTokenGate({
+  address,
+  balanceOfThreshold,
+  contractAddress,
+  message,
+  provider,
+  signedMessage,
+  tokenId: 2,
+  tokenStandard: "erc1155",
+});
+```
+
 [npm-image]: https://img.shields.io/npm/v/tokengate.svg?style=for-the-badge&labelColor=161c22
 [npm-url]: https://www.npmjs.com/package/tokengate
 [license-image]: https://img.shields.io/npm/l/tokengate.svg?style=for-the-badge&labelColor=161c22
