@@ -2,8 +2,19 @@ import { ethers, Contract } from "ethers";
 import { type Provider } from "@ethersproject/abstract-provider";
 import { type Signer } from "@ethersproject/abstract-signer";
 
+type BalanceOfAbi = [
+  {
+    inputs: Array<Object>;
+    name: string;
+    outputs: Array<Object>;
+    stateMutability: string;
+    type: string;
+  }
+];
+
 // todo: add erc20 and erc721 abis
-const tokenAbi = [
+// erc20, erc721, erc777
+const balanceOfAddressAbi: BalanceOfAbi = [
   {
     inputs: [{ internalType: "address", name: "owner", type: "address" }],
     name: "balanceOf",
@@ -13,10 +24,24 @@ const tokenAbi = [
   },
 ];
 
+// erc1155
+const balanceOfAddressForTokenIdAbi: BalanceOfAbi = [
+  {
+    inputs: [{ internalType: "address", name: "owner", type: "address" }],
+    name: "balanceOf",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+];
+
+type TokenStandard = "erc20" | "erc721" | "erc777" | "erc1155";
+
 type TokenGateArgs = {
   balanceOfThreshold: number;
   contractAddress: string;
   signerOrProvider: Signer | Provider;
+  tokenStandard?: TokenStandard;
   userAddress: string;
 };
 
@@ -24,9 +49,16 @@ export async function tokenGate({
   balanceOfThreshold,
   contractAddress,
   signerOrProvider,
+  tokenStandard = "erc20",
   userAddress,
 }: TokenGateArgs): Promise<boolean> {
-  const contract = new Contract(contractAddress, tokenAbi, signerOrProvider);
+  let abi: BalanceOfAbi;
+  if (tokenStandard === "erc1155") {
+    abi = balanceOfAddressForTokenIdAbi;
+  } else {
+    abi = balanceOfAddressAbi;
+  }
+  const contract = new Contract(contractAddress, abi, signerOrProvider);
 
   try {
     const balanceOf = await contract.balanceOf(userAddress);
@@ -59,6 +91,7 @@ type RecoverAddressAndCheckTokenGateArgs = {
   message: string;
   provider: Provider;
   signedMessage: string;
+  tokenStandard?: TokenStandard;
 };
 
 export async function recoverAddressAndCheckTokenGate({
@@ -68,6 +101,7 @@ export async function recoverAddressAndCheckTokenGate({
   message,
   provider,
   signedMessage,
+  tokenStandard = "erc20",
 }: RecoverAddressAndCheckTokenGateArgs): Promise<boolean> {
   const recoveredAddress = recoverAddressFromSignedMessage({
     message,
@@ -86,6 +120,7 @@ export async function recoverAddressAndCheckTokenGate({
     balanceOfThreshold,
     contractAddress,
     signerOrProvider: provider,
+    tokenStandard,
     userAddress: recoveredAddress,
   });
   return isEnabled;
