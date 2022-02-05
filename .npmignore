@@ -1,8 +1,4 @@
 .DS_Store
-dist/test.d.ts
-dist/test.d.ts.map
-dist/test.js
-dist/test.js.map
 test.ts
 tsconfig.json
 tsconfig.tsbuildinfo
